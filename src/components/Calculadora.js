@@ -1,8 +1,21 @@
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import './Calculadora.css'
+import React, { useState} from 'react';
 
 
 const Calculadora = () => {
+
+const [txtNumeros,setTxtNumeros] = useState('0');
+
+const addNumero = (numero) => {
+    setTxtNumeros(txtNumeros + numero)
+}
+
+const definirOperacao = (op) => {
+    setTxtNumeros(op)
+}
+
+
     return (
         <Card style={{
 
@@ -28,8 +41,10 @@ const Calculadora = () => {
 
                         <Form.Control type="text"
                             name='txtNumeros'
-                            class='text-right'
+                            className="text-end"
                             readOnly='readonly'
+                            value={txtNumeros}
+                            onChange={(e) => setTxtNumeros(e.target.value)}
 
                             style={{
                                 width:'96%',
@@ -44,62 +59,96 @@ const Calculadora = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant='light'>7</Button>
+                        <Button variant='light'
+                        onClick={() => addNumero('7')}
+                        >7</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>8</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('8')}
+                        
+                        >8</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>9</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('9')}
+                        
+                        >9</Button>
                     </Col>
 
                     <Col>
-                        <Button variant='warning'>/</Button>
+                        <Button variant='warning'
+                        onClick={() => definirOperacao('/')}
+                        >/</Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant='light'>4</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('4')}
+                        >4</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>5</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('5')}
+                        >5</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>6</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('6')}
+                        >6</Button>
                     </Col>
 
                     <Col>
-                        <Button variant='warning'>*</Button>
+                        <Button variant='warning'
+                        onClick={() => definirOperacao('*')}
+                        >*</Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant='light'>1</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('1')}
+                        >1</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>2</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('2')}
+                        >2</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>3</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('3')}
+                        >3</Button>
                     </Col>
 
                     <Col>
-                        <Button variant='warning'>-</Button>
+                        <Button variant='warning'
+                         onClick={() => definirOperacao('-')}
+                        >-</Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant='light'>0</Button>
+                        <Button variant='light'
+                          onClick={() => addNumero('0')}
+                        >0</Button>
                     </Col>
                     <Col>
-                        <Button variant='light'>.</Button>
+                        <Button variant='light'
+                        
+                        >.</Button>
                     </Col>
                     <Col>
-                        <Button variant='success'>=</Button>
+                        <Button variant='success'
+                        
+                        >=</Button>
                     </Col>
 
                     <Col>
-                        <Button variant='warning'>+</Button>
+                        <Button variant='warning'
+                        onClick={() => definirOperacao('+')}
+                        >+</Button>
                     </Col>
                 </Row>
 
