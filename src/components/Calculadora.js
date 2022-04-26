@@ -1,21 +1,60 @@
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import './Calculadora.css'
 import React, { useState} from 'react';
-
+import CalculadoraService from '../calculadora.service';
 
 const Calculadora = () => {
 
-const [txtNumeros,setTxtNumeros] = useState('0');
+    const [calcular, concatenarNumero, SOMA, SUBTRACAO, DIVISAO, MULTIPLICACAO] = CalculadoraService();
 
-const addNumero = (numero) => {
-    setTxtNumeros(txtNumeros + numero)
-}
-
-const definirOperacao = (op) => {
-    setTxtNumeros(op)
-}
-
-
+    const [txtNumeros, setTxtNumeros] = useState('0');
+    const [numero1, setNumero1] = useState('0');
+    const [numero2, setNumero2] = useState(null);
+    const [operacao, setOperacao] = useState(null);
+  
+    function addNumero(numero) {
+      let resultado;
+      if (operacao === null) {
+        resultado = concatenarNumero(numero1, numero);
+        setNumero1(resultado);
+      } else {
+        resultado = concatenarNumero(numero2, numero);
+        setNumero2(resultado);
+      }
+      setTxtNumeros(resultado);
+    }
+  
+    function definirOperacao(op) {
+      // apenas define a operação caso ela não exista
+      if (operacao === null) {
+        setOperacao(op);
+        return;
+      }
+      // caso operação estiver definida e número 2 selecionado, realiza o cálculo da operação
+      if (numero2 !== null) {
+        const resultado = calcular(parseFloat(numero1), parseFloat(numero2), operacao);
+        setOperacao(op);
+        setNumero1(resultado.toString());
+        setNumero2(null);
+        setTxtNumeros(resultado.toString());
+      }
+    }
+  
+    function acaoCalcular() {
+      if (numero2 === null) {
+        return;
+      }
+      const resultado = calcular(parseFloat(numero1), parseFloat(numero2), operacao);
+      setTxtNumeros(resultado);
+    }
+  
+    function limpar() {
+      setTxtNumeros('0');
+      setNumero1('0');
+      setNumero2(null);
+      setOperacao(null);
+    }
+  
     return (
         <Card style={{
 
@@ -33,7 +72,9 @@ const definirOperacao = (op) => {
 
                     <Col xs='3'>
 
-                        <Button variant='danger'>C</Button>
+                        <Button variant='danger'
+                         onClick={limpar}
+                        >C</Button>
 
                     </Col>
 
@@ -78,7 +119,7 @@ const definirOperacao = (op) => {
 
                     <Col>
                         <Button variant='warning'
-                        onClick={() => definirOperacao('/')}
+                        onClick={() => definirOperacao(DIVISAO)}
                         >/</Button>
                     </Col>
                 </Row>
@@ -101,7 +142,7 @@ const definirOperacao = (op) => {
 
                     <Col>
                         <Button variant='warning'
-                        onClick={() => definirOperacao('*')}
+                        onClick={() => definirOperacao(MULTIPLICACAO)}
                         >*</Button>
                     </Col>
                 </Row>
@@ -124,7 +165,7 @@ const definirOperacao = (op) => {
 
                     <Col>
                         <Button variant='warning'
-                         onClick={() => definirOperacao('-')}
+                         onClick={() => definirOperacao(SUBTRACAO)}
                         >-</Button>
                     </Col>
                 </Row>
@@ -136,18 +177,18 @@ const definirOperacao = (op) => {
                     </Col>
                     <Col>
                         <Button variant='light'
-                        
+                          onClick={() => addNumero('.')}
                         >.</Button>
                     </Col>
                     <Col>
                         <Button variant='success'
-                        
+                        onClick={acaoCalcular}
                         >=</Button>
                     </Col>
 
                     <Col>
                         <Button variant='warning'
-                        onClick={() => definirOperacao('+')}
+                        onClick={() => definirOperacao(SOMA)}
                         >+</Button>
                     </Col>
                 </Row>
